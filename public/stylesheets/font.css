@@ -1,0 +1,14 @@
+@font-face {
+ font-family: 'saysettha ot';
+ src:url('Phetsarath_OT.ttf');
+ src:ur('Saysettha OT.ttf') format('truetype'),
+     url('Phetsarath_OT.ttf') format('truetype'),
+     url('Saysettha OT.ttf') format('truetype'),
+      
+     format('svg');
+ font-weight: normal;
+ font-style: normal;
+}
+body{
+  font-family: Saysettha OT, Phetsarath_OT, Tahoma, sans-serif;
+}

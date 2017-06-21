@@ -14,12 +14,15 @@ var MongoStore = require('connect-mongo')(session);
 
 var routes = require('./routes/index');
 var userRoutes = require('./routes/user');
+var productRoutes = require('./routes/product');
+
 
 
 var app = express();
 
 mongoose.connect('localhost:27017/shopping');
 require('./config/passport');
+
 
 // view engine setup
 app.engine('.hbs', expressHbs({defaultLayout: 'layout', extname: '.hbs'}));
@@ -50,8 +53,10 @@ app.use(function(req, res, next) {
   next();
 });
 
+
 app.use('/user', userRoutes);
 app.use('/', routes);
+app.use('/product', productRoutes);
 
 
 // catch 404 and forward to error handler

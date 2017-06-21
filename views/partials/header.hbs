@@ -23,9 +23,12 @@
       <ul class="nav navbar-nav navbar-right">
         <li><a href="/shopping-cart/"><i class="fa fa-shopping-cart" aria-hidden="true"></i>Shopping Cart<span class="badge">{{session.cart.totalQty}}</span></a></li>
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user" aria-hidden="true"></i>User Management <span class="caret"></span></a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user" aria-hidden="true"></i>Member<span class="caret"></span></a>
           <ul class="dropdown-menu">
             {{#if login }}
+                <li><a href="/user/dashboard">DashBoard1</a></li>
+                
+                <li role="separator" class="divider"></li>
                 <li><a href="/user/profile">User Account</a></li>
                 <li role="separator" class="divider"></li>
                 <li><a href="/user/logout">Logout</a></li>
@@ -35,6 +38,7 @@
             {{/if}}
           </ul>
         </li>
+        
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->

@@ -2,6 +2,8 @@ var express = require('express');
 var router = express.Router();
 var Cart = require('../models/cart');
 
+
+
 var Product = require('../models/product');
 var Order = require('../models/order');
 
@@ -14,9 +16,10 @@ router.get('/', function(req, res, next) {
     for (var i = 0; i< docs.length; i += chunkSize) {
       productChunks.push(docs.slice(i, i + chunkSize));
     }
-    res.render('shop/index', { title: 'Shopping Cart', products: productChunks, successMsg: successMsg, noMessage: !successMsg });
+    res.render('shop/index', { title: 'ຮ້ານຂາຍຂອງ', products: productChunks, successMsg: successMsg, noMessage: !successMsg });
   });
 });
+
 
 router.get('/add-to-cart/:id', function(req, res, next) {
   var productId = req.params.id;
@@ -56,49 +59,53 @@ router.get('/shopping-cart', function(req, res, next) {
     return res.render('shop/shopping-cart', {products: null});
   }
   var cart = new Cart(req.session.cart);
-  res.render('shop/shopping-cart', {products: cart.generateArray(), totalPrice: cart.totalPrice});
+  res.render('shop/shopping-cart', {title: 'ກະຕ່າ' ,products: cart.generateArray(), totalPrice: cart.totalPrice});
 });
 
-router.get('/checkout', isLoggedIn, function(req, res, next) {
+router.get('/checkout', function(req, res, next) {
   if(!req.session.cart) {
     return res.redirect('/shopping-cart');
   }
   var cart = new Cart(req.session.cart);
   var errMsg = req.flash('error')[0];
-  res.render('shop/checkout', {total: cart.totalPrice, errMsg: errMsg, noError: !errMsg});
+  res.render('shop/checkout', {title: 'ສັ່ງຊື້' ,total: cart.totalPrice, errMsg: errMsg, noError: !errMsg});
 });
 
-router.post('/checkout', isLoggedIn, function(req, res, next) {
+router.post('/checkout', function(req, res, next) {
   if (!req.session.cart) {
     return res.redirect('/shopping-cart');
   }
-  var cart = new Cart(req.session.cart);
+  var cart = new Cart(req.session.cart); 
 
-  var stripe = require("stripe") ("sk_test_JRUA0m3RFXKSqDEHAi63B2Jf");
 
-stripe.charges.create({
-  amount: cart.totalPrice * 100,
-  currency: "usd",
-  source: req.body.stripeToken, // obtained with Stripe.js
-  description: "Test Charge"
-}, function(err, charge) {
-  if (err) {
-    req.flash('error', err.message);
-    return res.redirect('/checkout');
-  }
   var order = new Order({
     user: req.user,
     cart: cart,
     address: req.body.address,
-    name: req.body.name,
-    paymentId: charge.id
+    name: req.body.name
+    
   });
   order.save(function(err, result){
-      req.flash('success', 'Successfully bougth product!');
+      req.flash('success', ' ທ່ານໄດ້ສັ່ງຊື້ສິນຄ້າແລ້ວ! ກະລຸນາລໍຖ້າສິນຄ້າຈະສົ່ງເຖິງທ່ານ ໃນບໍ່ເກີນ3ວັນ. ຂອບໃຈຫຼາຍໆ');
       req.session.cart = null;
       res.redirect('/');
-  });
+  
 });
+});
+router.get('/profile', function(req, res, next) {
+    Order.find(function(err, orders) {
+        
+        var cart;
+        orders.forEach(function(order) {
+            cart = new Cart(order.cart);
+            order.items = cart.generateArray();
+        });
+        res.render('shop/profile', { orders: orders });
+    });
+});
+
+router.get('/signin', function(req, res, next) {
+  res.render('user/signin', {title: 'ລົງຊື່ເຂົ້າລະບົບ'});
 });
 
 module.exports = router;

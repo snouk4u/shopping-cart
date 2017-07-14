@@ -1,4 +1,4 @@
-<h1>Dash Board</h1>
+
 <div class="row">
     <div class="col-sm-8 col-md-2">
          
@@ -33,35 +33,9 @@
 <div class="col-sm-8 col-md-3">
     <div class="thumbnail">
         <section class="get">
-            <h3>ກວດເຊັກໃບຊັ່ງຊື້</h3>
-            <a href="/user/get-order">ກວດເຊັກໃບຊັ່ງຊື້</a>
-            {{# each items}}
-            <div>
-                <h3>ໃບຊັ່ງຊື້</h3>
-                <p>ເລກທີ: {{ this._id }}</p>
-                <p>ຊື່ຜູ້ຮັບ: {{ this.name }}</p>
-                <p>ທີ່ຢູ່: {{ this.address }}</p>
-                <div>
-                    <h3>ລາຍການສິນຄ້າ:</h3> 
-                    {{# each cart.items}}
-                       <p>{{ this.item.title }} | ຈຳນວນ | {{ this.qty }} ຫໍ່</p>
-                       
-                    {{/each}}
-                </div>
-                <strong>ມູນຄ່າທັງໝົດ: {{ this.cart.totalPrice }} $</strong>
-                
-            <hr class="hr">
-            </div>
-            {{/each}}
-        </section>
-   </div>
-</div>
-
-<div class="col-sm-8 col-md-3">
-    <div class="thumbnail">
-        <section class="get">
-            <h3>ກວດເຊິ່ງສິນຄ້າທັງໝົດ</h3>
-            <a href="/user/get-data">ກວດເຊິ່ງສິນຄ້າທັງໝົດ</a>
+            
+            <a href="/user/get-data"><h3>ກວດເບິ່ງສິນຄ້າທັງໝົດ</h3></a>
+            {{#if items }}
             <div>
                 {{# each items }}
                     <article class="item">
@@ -69,13 +43,21 @@
                         <div class="caption">
                         <h3>Title: {{ this.title }}</h3>
                         <p>Description: {{ this.description }}</p>
-                        <p>Price: {{ this.price }}</p>
+                        <p>Price: {{ number this.price }} ກີບ</p>
                         <p>ID: {{ this._id }}</p>
                         </div>
+                        <hr class="hr">
                     </article>
                 {{/each}}
             </div>
-            
+            {{ else }}
+
+
+                <div>
+                    <h2>ຍັງບໍ່ມີສິນຄ້າ</h2>
+                </div>
+
+            {{/if}}
         </section>
    </div>
 </div>
@@ -117,12 +99,12 @@
     <div class="thumbnail">
         <section class="delete">
             <h3>ລົບສິນຄ້າ</h3>
-            <form action="/product/delete" method="post">
+            <form action="/user/delete" method="post">
                 <div class="input">
                     <label for="id">ID</label>
                     <input type="text" id="id" name="id" required>
                 </div>
-                
+                <input type="hidden" name="_csrf" value="{{ csrfToken }}">
                 <button type="submit" class="btn btn-danger">ລົບສິນຄ້າ</button>
             </form>
         </section>

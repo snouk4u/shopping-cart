@@ -7,9 +7,11 @@ var objectId = require('mongodb').ObjectID;
 var assert = require('assert');
 
 var Order = require('../models/order');
+var User = require('../models/user');
 var Cart = require('../models/cart');
 
-var url = 'mongodb://localhost:27017/shopping';
+var url = 'mongodb://snoukok:pppppppp@ds139082.mlab.com:39082/hankaikong';
+//var url = 'mongodb://localhost:27017/shopping';
 
 var csrfProtection = csrf();
 router.use(csrfProtection);
@@ -24,20 +26,23 @@ router.get('/profile', isLoggedIn, function(req, res, next) {
             cart = new Cart(order.cart);
             order.items = cart.generateArray();
         });
-        res.render('user/profile', { orders: orders });
+
+        res.render('user/profile', {title: 'ໃບສັ່ງຊື້ທັງໝົດ', orders: orders });
     });
 });
 
 router.get('/dashboard', isLoggedIn, function(req, res, next) {
     Order.find({user: req.user}, function(err, orders) { if (err) { return res.write('Error!');  }
         
-        res.render('user/dashboard', {title: 'Dashboard',csrfToken: req.csrfToken()});
+        res.render('user/dashboard', {title: 'ຈັດການສິນຄ້າ',csrfToken: req.csrfToken()});
     });
 });
 
+
+
 /* GET Test page. */
 router.get('/insert', isLoggedIn, function(req, res, next) {
-     res.render('user/dashboard', {title: 'Add Product', csrfToken: req.csrfToken()});
+     res.render('user/get-data', {title: 'ເພີ່ມສິນຄ້າ', csrfToken: req.csrfToken()});
 });
 
 router.post('/insert', isLoggedIn, function(req, res, next) {
@@ -55,7 +60,7 @@ router.post('/insert', isLoggedIn, function(req, res, next) {
       assert.equal(null, err);
       console.log('Item inserted');
       db.close();
-    });
+      });
   });
   
 res.redirect('/user/dashboard');
@@ -72,17 +77,44 @@ router.get('/get-order', isLoggedIn, function(req, res, next){
       resultArray.push(doc);
     }, function(){
       db.close();
-      res.render('user/dashboard', {items: resultArray});
+      res.render('user/order', {title: 'ໃບສັ່ງຊື້ທັງໝົດ', items: resultArray});
     });
   });
 });
 
+router.get('/order', isLoggedIn, function(req, res, next){
+  var successMsg = req.flash('success')[0];
+  Order.find(function(err, docs) {
+    var orderChunks = [];
+    var chunkSize = 3;
+    for (var i = 0; i< docs.length; i += chunkSize) {
+      orderChunks.push(docs.slice(i, i + chunkSize));
+    }
+  
+    res.render('user/order', { title: 'ໃບສັ່ງຊື້ທັງໝົດ', orders: orderChunks});
+  });
+  
+});
+
+router.get('/user', isLoggedIn, function(req, res, next){
+  var successMsg = req.flash('success')[0];
+  User.find(function(err, docs) {
+    var userChunks = [];
+    var chunkSize = 3;
+    for (var i = 0; i< docs.length; i += chunkSize) {
+      userChunks.push(docs.slice(i, i + chunkSize));
+    }
+  
+    res.render('user/user', { users: userChunks, successMsg: successMsg, noMessage: !successMsg });
+  });
+  
+});
+
 router.get('/update', isLoggedIn, function(req, res, next) {
-     res.render('user/update', {title: 'Update Product', csrfToken: req.csrfToken()});
+     res.render('user/dashboard', {title: 'updated Product', csrfToken: req.csrfToken()});
 });
 
 router.post('/update', isLoggedIn, function(req, res, next) {
-    
   var item = {
     imagePath: req.body.imagePath,
     title: req.body.title,
@@ -98,12 +130,13 @@ router.post('/update', isLoggedIn, function(req, res, next) {
       assert.equal(null, err);
       console.log('Item updated');
       db.close();
+      res.render('user/dashboard', {title: 'ແກ້ໄຂຂໍ່ມູນສິນຄ້າໃໝ່ແລ້ວ', csrfToken: req.csrfToken()});
     });
   }); 
 });
 
 router.get('/delete', isLoggedIn, function(req, res, next) {
-     res.render('user/delete', {title: 'Delete Product', csrfToken: req.csrfToken()});
+     res.render('user/dashboard', {title: 'Delete Product', csrfToken: req.csrfToken()});
 });
 
 router.post('/delete', isLoggedIn, function(req, res, next) {
@@ -116,6 +149,7 @@ router.post('/delete', isLoggedIn, function(req, res, next) {
       assert.equal(null, err);
       console.log('Item deleted');
       db.close();
+      res.render('user/dashboard', {title: 'ການລົບສິນຄ້າສຳເລັດ', csrfToken: req.csrfToken()});
     });
   }); 
 });
@@ -130,7 +164,7 @@ router.get('/get-data', isLoggedIn, function(req, res, next){
       resultArray.push(doc);
     }, function(){
       db.close();
-      res.render('user/dashboard', {items: resultArray, csrfToken: req.csrfToken()});
+      res.render('user/dashboard', {title: 'ສິນຄ້າທັງໝົດ', items: resultArray, csrfToken: req.csrfToken()});
     });
   });
 });
@@ -164,6 +198,7 @@ router.post('/signup', passport.authenticate('local.signup', {
         res.redirect('/user/profile');
     }
 });
+  
 
 router.get('/signin', function(req, res, next) {
   var messages = req.flash('error');

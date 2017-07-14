@@ -1,0 +1,50 @@
+
+<div class="row">
+    
+<div class="col-sm-8 col-md-6">
+    
+    <div class="thumbnail">
+        <section class="get">
+            
+            <h2 class="header"><a href="/user/get-order">ກວດເຊັກໃບຊັ່ງຊື້</a></h2>
+            {{# each items}}
+            <div>
+                <h3>ໃບຊັ່ງຊື້</h3>
+                <p>ເລກທີ: {{ this._id }}</p>
+                <p>ວັນທີ: {{ this.order_at }}</p>
+                
+                <p>ລະຫັດສຳມະຊິກ: {{ this.user }}</p>
+                <p>ຊື່ຜູ້ຮັບ: {{ this.name }}</p>
+                <p>ທີ່ຢູ່: {{ this.address }}</p>
+                <p>ເບີໂທ: {{ this.tel }}</p>
+                <div>
+                    <h3>ລາຍການສິນຄ້າ:</h3> 
+                    {{# each cart.items}}
+                       <p>{{ this.item.title }} | ຈຳນວນ | {{ this.qty }} ຫໍ່</p>
+                       
+                    {{/each}}
+                </div>
+                <strong>ມູນຄ່າທັງໝົດ: {{ number this.cart.totalPrice }} ກີບ</strong>
+                
+            <hr class="hr">
+            </div>
+            {{/each}}
+        </section>
+   </div>
+</div>
+<div class="col-sm-8 col-md-6">
+    
+    <div class="thumbnail">
+        <section class="get">
+            
+           
+            <iframe src="http://localhost:8080/user/user" frameborder="0" width="400" height="500" allowfullscreen></iframe>
+        </section>
+   </div>
+</div>
+
+
+
+</div>
+
+

@@ -11,16 +11,18 @@ var passport = require('passport');
 var flash = require('connect-flash');
 var validator = require('express-validator');
 var MongoStore = require('connect-mongo')(session);
+var Handlebars = require("handlebars");
+var NumeralHelper = require("handlebars.numeral");
+NumeralHelper.registerHelpers(Handlebars);
 
 var routes = require('./routes/index');
 var userRoutes = require('./routes/user');
-var productRoutes = require('./routes/product');
-
 
 
 var app = express();
 
-mongoose.connect('localhost:27017/shopping');
+mongoose.connect('mongodb://snoukok:pppppppp@ds139082.mlab.com:39082/hankaikong');
+//mongoose.connect('localhost:27017/shopping');
 require('./config/passport');
 
 
@@ -55,8 +57,9 @@ app.use(function(req, res, next) {
 
 
 app.use('/user', userRoutes);
+
 app.use('/', routes);
-app.use('/product', productRoutes);
+
 
 
 // catch 404 and forward to error handler

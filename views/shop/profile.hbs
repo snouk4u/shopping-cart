@@ -11,14 +11,14 @@
                 <ul class="list-group">
                     {{# each this.items }}
                         <li class="list-group-item">
-                            <span class="badge">{{ this.price }}</span>
+                            <span class="badge">{{ number this.price }} ກີບ</span>
                             <img src="{{ this.item.imagePath }}" alt="..." class="img-responsive"> 
                             {{ this.item.title }} | {{ this.qty }} Units
                         </li>
                     {{/each}}
                 </ul>
             </div>
-            <div class="panel-footer"><strong>${{ this.cart.totalPrice }}</strong></div>
+            <div class="panel-footer"><strong>{{ number this.cart.totalPrice }} ກີບ</strong></div>
         </div>
         {{/each}}
     </div>

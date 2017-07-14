@@ -10,8 +10,16 @@
        {{/if}}
         <form action="/user/signup" method="post">
             <div class="form-gruop">
+                <label for="firstname">Name</label>
+                <input type="text" id="firstname" name="firstname" class="form-control">
+            </div>
+            <div class="form-gruop">
                 <label for="email">E-mail</label>
                 <input type="text" id="email" name="email" class="form-control">
+            </div>
+            <div class="form-gruop">
+                <label for="tel">Phone</label>
+                <input type="number" id="tel" name="tel" class="form-control">
             </div>
             <div class="form-gruop">
                 <label for="password">Password</label>

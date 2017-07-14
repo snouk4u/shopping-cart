@@ -1,5 +1,8 @@
 var express = require('express');
 var router = express.Router();
+var Handlebars = require("handlebars");
+ var NumeralHelper = require("handlebars.numeral");
+ NumeralHelper.registerHelpers(Handlebars);
 var Cart = require('../models/cart');
 
 
@@ -82,11 +85,13 @@ router.post('/checkout', function(req, res, next) {
     user: req.user,
     cart: cart,
     address: req.body.address,
-    name: req.body.name
+    name: req.body.name,
+    tel: req.body.tel,
+    order_at: req.body.order_at
     
   });
   order.save(function(err, result){
-      req.flash('success', ' ທ່ານໄດ້ສັ່ງຊື້ສິນຄ້າແລ້ວ! ກະລຸນາລໍຖ້າສິນຄ້າຈະສົ່ງເຖິງທ່ານ ໃນບໍ່ເກີນ3ວັນ. ຂອບໃຈຫຼາຍໆ');
+      req.flash('success', ' ການສັ່ງຊື້ສິນຄ້າສຳເລັດ! ຖ້າທ່ານໂອນເງິນແລ້ວ ກະລຸນາ ລໍຖ້າສິນຄ້າຈະສົ່ງເຖິງທ່ານ ໃນບໍ່ເກີນ3ວັນ. ຂອບໃຈຫຼາຍໆ ຈາກ:');
       req.session.cart = null;
       res.redirect('/');
   

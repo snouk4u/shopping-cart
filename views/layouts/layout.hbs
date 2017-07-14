@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"> 
     <link rel='stylesheet' href='/stylesheets/style.css'/>
+    <link rel='stylesheet' href='/stylesheets/blog.css'/>
     <link rel='stylesheet' href='/stylesheets/font.css'/>
     <link rel='stylesheet' href='/stylesheets/sticky-footer-navbar.css'/>
     <link rel='stylesheet' href='/bootstrap-3.3.7-dist/css/bootstrap.min.css'/>
@@ -14,19 +15,54 @@
   <body>
     {{> header}}
     <script src="/javascripts/jquery-1.12.4.js"></script>
-    <div class="container" style="font-family: Saysettha OT, Phetsarath_OT">
-      {{{body}}}
+    <script src="/javascripts/bootstrap.min.js"></script>
+    <script src="/javascripts/angular.min.js"></script>
+
+      
+
+<div class="container-fluid" style="font-family: Saysettha OT, Phetsarath_OT">
+        <div class="col-sm-3 col-md-2 sidebar" id="snouk">
+          <div class="sidebar-nav-fixed pull-left affix">
+          <div class="well">
+          <ol class="list-unstyled">
+              <li><a href="http://localhost:8000/videos">videos</a></li>
+              <li><a href="http://localhost/happyfruit">happyfruit</a></li>
+              <li><a href="http://localhost/ioniccart">ioniccart</a></li>
+            </ol>
+            </div>
+         </div>
+        </div>
+        <!--/span-->
+        <div class="row">
+        <div class="col-md-6">
+            <div class="jumbotron {{#if noMessages}}hidden{{/if}}">
+                 <h2 style="text-align:center; color:blueviolet; font:bolder;">{{ successMsg }}&nbsp;{{title}}</h2>
+            </div>
+            {{{body}}}
+        </div>
+        <!--/span-->
+        <div class="col-md-3">
+            <div class="sidebar-nav-fixed pull-right affix">
+                <div class="well">
+                    <h4>About</h4>
+            <p>ຮ້ານຂາຍຂອງ <em>ຮ້ານຂາຍຂອງ</em> ຮ້ານຂາຍຂອງ.</p>
+          </div>
+          
+          <div class="sidebar-module">
+            <h4>Elsewhere</h4>
+            <ol class="list-unstyled">
+              <li><a href="https://github.com/snouk4u">GitHub</a></li>
+              
+              <li><a href="https://web.facebook.com/MEAN-Stack-Developer-Laos-1225274574155623/">Facebook</a></li>
+            </ol>
+          </div>
+                </div>
+                <!--/.well -->
+            </div>
+            <!--/sidebar-nav-fixed -->
+        </div>
+        <!--/span-->
     </div>
-    <hr>
-    <hr>
-    <hr>
-    <hr>
-    <div>ຮ້ານຂາຍຂອງ</div>
-    {{> footer}}
-    
-     
-      <script src="/javascripts/bootstrap.min.js"></script>
-    
-    
+{{> footer}}   
   </body>
 </html>
